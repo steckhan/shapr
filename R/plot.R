@@ -109,6 +109,9 @@ plot.shapr <- function(x,
   plotting_dt[, rank := data.table::frank(-abs(phi)), by = "id"]
   plotting_dt <- plotting_dt[rank <= top_k_features]
   plotting_dt[, description := factor(description, levels = unique(description[order(abs(phi))]))]
+  
+  # fix for correct facet_wrap order of ids
+  plotting_dt$header <-factor(plotting_dt$header, levels = unique(plotting_dt$header))
 
   # Plotting
   gg <- ggplot2::ggplot(plotting_dt) +
